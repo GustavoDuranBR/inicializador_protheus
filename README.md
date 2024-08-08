@@ -1,9 +1,8 @@
-Criar um README detalhado é uma ótima maneira de documentar seu projeto e ajudar outros desenvolvedores a utilizá-lo. Abaixo está um exemplo de README para o seu projeto:
-
-```markdown
 # Menu de Tarefas do Protheus
 
-Este projeto é um aplicativo de interface gráfica desenvolvido em Python para facilitar a execução de várias tarefas relacionadas ao Protheus 12.1.2310. Ele permite a execução de comandos, abertura de navegadores e configuração de caminhos de arquivos.
+Este projeto é um aplicativo de interface gráfica desenvolvido em Python para facilitar a execução de
+várias tarefas relacionadas ao Protheus.
+Ele permite a execução de comandos, abertura de navegadores e configuração de caminhos de arquivos.
 
 ## Funcionalidades
 
@@ -11,7 +10,7 @@ Este projeto é um aplicativo de interface gráfica desenvolvido em Python para 
 - Iniciar Appserver
 - Iniciar Protheus WEB
 - Iniciar Smartclient
-- Rodar BAT para baixar RPO
+- Atualização do RPO
 - Configurar caminhos para cada tarefa
 - Copiar arquivo `appserver.ini` para um diretório específico
 
@@ -52,7 +51,7 @@ pip install tk
 ### Executar o Programa
 
 ```sh
-python main.py
+python inicializador_protheus.py
 ```
 
 ### Configuração
@@ -67,21 +66,22 @@ Para configurar os caminhos dos executáveis e outras configurações:
 
 Na aba de configurações, você pode selecionar o arquivo `appserver.ini` e o diretório de destino para copiá-lo:
 
-1. Selecione o arquivo `appserver.ini`.
-2. Selecione o diretório de destino.
-3. Clique no botão "Copiar".
+1. Clique no botão Copiar appserver.ini
+2. Selecione o `appserver.ini` que deseja utilizar
+3. Selecione o diretório padrão para executar o appserver
+4. O programa copiar o `appserver.ini` devidamente
 
 ## Estrutura do Projeto
 
 ```plaintext
 project/
 │
-├── venv/                    # Diretório da virtual environment
-├── main.py                  # Lógica principal da aplicação
-├── config.py                # Lógica da janela de configurações
-├── tooltip.py               # Classe para dicas de ferramentas
-├── requirements.txt         # Arquivo de dependências
-└── .gitignore               # Arquivo para ignorar arquivos/diretórios específicos no Git
+├── venv/                      # Diretório da virtual environment
+├── inicializador_protheus.py  # Lógica principal da aplicação
+├── config.py                  # Lógica da janela de configurações
+├── tooltip.py                 # Classe para dicas de ferramentas
+├── requirements.txt           # Arquivo de dependências
+└── .gitignore                 # Arquivo para ignorar arquivos/diretórios específicos no Git
 ```
 
 ## Contribuição
@@ -103,6 +103,3 @@ Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICEN
 ## Contato
 
 Se tiver dúvidas ou precisar de ajuda, entre em contato através do email gustavoduran22@gmail.com
-
-```
-
