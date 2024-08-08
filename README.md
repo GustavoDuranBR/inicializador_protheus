@@ -25,7 +25,7 @@ Ele permite a execução de comandos, abertura de navegadores e configuração d
 ### 1. Clonar o Repositório
 
 ```sh
-git clone https://github.com/yourusername/repositoryname.git
+https://github.com/GustavoDuranBR/inicializador_protheus
 cd repositoryname
 ```
 
