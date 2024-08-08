@@ -1,0 +1,13 @@
+venv/
+imagens/
+dist/
+build/
+inicializador_protheus/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+comandos_utilizados.txt
+inicializador_protheus.spec
+config_log.txt
+paths.json
