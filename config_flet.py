@@ -39,6 +39,7 @@ def open_settings(parent):
     settings_window = tk.Toplevel(parent)
     settings_window.title("Configurações")
     settings_window.iconbitmap("icon.ico")
+    settings_window.configure(bg='#333333')  # Background da janela de configurações
 
     def save_path(path_key, is_directory=False):
         if is_directory:
@@ -54,14 +55,17 @@ def open_settings(parent):
     path_vars = {key: tk.StringVar(value=paths.get(key, "")) for key in paths}
 
     for i, (label_text, path_key) in enumerate(paths.items()):
-        label = tk.Label(settings_window, text=label_text)
+        # Label com texto e fundo da janela
+        label = tk.Label(settings_window, text=label_text, bg='#333333', fg='white')
         label.grid(row=i, column=0, padx=5, pady=5, sticky="e")
 
-        entry = tk.Entry(settings_window, textvariable=path_vars[label_text], width=50, state='readonly')
+        # Entry para exibir o caminho, com fundo branco e texto preto
+        entry = tk.Entry(settings_window, textvariable=path_vars[label_text], width=50, state='readonly', bg='white', fg='black')
         entry.grid(row=i, column=1, padx=5, pady=5)
         ToolTip(entry, f"Defina o caminho para {label_text.lower()}")
 
-        browse_button = tk.Button(settings_window, text="Procurar", command=lambda key=label_text: save_path(key))
+        # Botão para procurar o caminho, com fundo cinza escuro e texto branco
+        browse_button = tk.Button(settings_window, text="Procurar", command=lambda key=label_text: save_path(key), bg='#444444', fg='white')
         browse_button.grid(row=i, column=2, padx=5, pady=5)
 
     def copy_file():
@@ -72,14 +76,16 @@ def open_settings(parent):
                 shutil.copy(src, dst)
                 tk.messagebox.showinfo("Sucesso", f"Arquivo copiado para {dst}")
 
-    copy_button = tk.Button(settings_window, text="Copiar appserver.ini", command=copy_file)
+    copy_button = tk.Button(settings_window, text="Copiar appserver.ini", command=copy_file, bg='#444444', fg='white')
     copy_button.grid(row=len(paths), column=0, columnspan=3, pady=10)
 
     def save_and_close():
         save_paths()
         settings_window.destroy()
 
-    save_button = tk.Button(settings_window, text="Salvar", command=save_and_close)
+    save_button = tk.Button(settings_window, text="Salvar", command=save_and_close, bg='#444444', fg='white')
     save_button.grid(row=len(paths) + 1, column=0, columnspan=3, pady=10)
 
     settings_window.mainloop()
+
+#teste

@@ -3,7 +3,7 @@ from tkinter import ttk, messagebox, scrolledtext
 import subprocess
 import threading
 import webbrowser
-from config import open_settings, paths
+from config_flet import open_settings, paths
 from tooltip import ToolTip
 
 processes = []
@@ -116,7 +116,7 @@ buttons.append(exit_button)
 dev_label = tk.Label(frame_buttons, text="Dev: Gustavo Duran", bg='#333333', fg='white')
 dev_label.pack(pady=5, anchor=tk.W)
 
-version_label = tk.Label(frame_buttons, text="Versão: 2.0", bg='#333333', fg='white')
+version_label = tk.Label(frame_buttons, text="Versão: 1.0", bg='#333333', fg='white')
 version_label.pack(pady=5, anchor=tk.W)
 
 root.protocol("WM_DELETE_WINDOW", quit_app)
