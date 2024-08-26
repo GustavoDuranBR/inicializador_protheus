@@ -4,7 +4,6 @@ import subprocess
 import threading
 import webbrowser
 from config import open_settings, paths
-from tooltip import ToolTip
 
 processes = []
 
@@ -64,18 +63,19 @@ root.configure(bg='#333333')
 # Estilo para tema dark
 style = ttk.Style()
 style.theme_use('default')
-style.configure('TButton', background='#666666', foreground='white', font=('Arial', 10))
+style.configure('TButton', background='#444444', foreground='#8bb7f7', font=('Arial', 10))
 style.map('TButton', background=[('active', '#555555')])
 
-label = tk.Label(root, text="Inicializador Protheus", bg='#333333', fg='white')
+label = tk.Label(root, text="Inicializador Protheus", bg='#333333', fg='#8bb7f7', font=('Arial', 16))
 label.pack(pady=10)
 
 # Frame para os botões, alinhado à esquerda
 frame_buttons = tk.Frame(root, bg='#333333')
 frame_buttons.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
 
-# Caixa de diálogo para log, maior e ajustada
-log_box = scrolledtext.ScrolledText(root, width=50, height=20, bg='#222222', fg='white', state='normal')
+# Caixa de diálogo
+log_box = scrolledtext.ScrolledText(root, width=50, height=20, bg='#222222', 
+                                    fg='#8bb7f7', state='normal')
 log_box.pack(side=tk.RIGHT, fill=tk.BOTH, padx=10, pady=10, expand=True)
 
 buttons = []
@@ -86,11 +86,13 @@ tasks = [
 ]
 
 for text, path_key in tasks:
-    button = tk.Button(frame_buttons, text=text, command=lambda key=path_key: start_task(key))
+    button = tk.Button(frame_buttons, text=text, command=lambda key=path_key: start_task(key), 
+                       width=25, bg='#444444', fg='#8bb7f7', relief='flat')
     button.pack(pady=5, anchor=tk.W)
     buttons.append(button)
 
-browser_button = tk.Button(frame_buttons, text="Iniciar Protheus WEB", command=open_browser)
+browser_button = tk.Button(frame_buttons, text="Iniciar Protheus WEB", command=open_browser, 
+                           width=25, bg='#444444', fg='#8bb7f7', relief='flat')
 browser_button.pack(pady=5, anchor=tk.W)
 buttons.append(browser_button)
 
@@ -100,23 +102,26 @@ tasks_rest = [
 ]
 
 for text, path_key in tasks_rest:
-    button = tk.Button(frame_buttons, text=text, command=lambda key=path_key: start_task(key))
+    button = tk.Button(frame_buttons, text=text, command=lambda key=path_key: start_task(key), 
+                       width=25, bg='#444444', fg='#8bb7f7', relief='flat')
     button.pack(pady=5, anchor=tk.W)
     buttons.append(button)
 
-settings_button = tk.Button(frame_buttons, text="Configurações", command=lambda: open_settings(root))
+settings_button = tk.Button(frame_buttons, text="Configurações", command=lambda: open_settings(root), 
+                            width=25, bg='#444444', fg='#8bb7f7', relief='flat')
 settings_button.pack(pady=5, anchor=tk.W)
 buttons.append(settings_button)
 
-exit_button = tk.Button(frame_buttons, text="Sair", command=quit_app)
+exit_button = tk.Button(frame_buttons, text="Sair", command=quit_app, 
+                        width=25, bg='#444444', fg='#8bb7f7', relief='flat')
 exit_button.pack(pady=5, anchor=tk.W)
 buttons.append(exit_button)
 
 # Informações do desenvolvedor e versão, alinhadas à esquerda junto com os botões
-dev_label = tk.Label(frame_buttons, text="Dev: Gustavo Duran", bg='#333333', fg='white')
+dev_label = tk.Label(frame_buttons, text="Dev: Gustavo Duran", bg='#333333', fg='#8bb7f7')
 dev_label.pack(pady=5, anchor=tk.W)
 
-version_label = tk.Label(frame_buttons, text="Versão: 1.0", bg='#333333', fg='white')
+version_label = tk.Label(frame_buttons, text="Versão: 2.1", bg='#333333', fg='#8bb7f7')
 version_label.pack(pady=5, anchor=tk.W)
 
 root.protocol("WM_DELETE_WINDOW", quit_app)
