@@ -1,4 +1,5 @@
 venv/
+.venv/
 imagens/
 dist/
 build/
@@ -11,3 +12,4 @@ comandos_utilizados.txt
 inicializador_protheus.spec
 config_log.txt
 paths.json
+script_001.iss

@@ -1,5 +1,6 @@
 
 # Menu de Tarefas do Protheus
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 Este projeto é um aplicativo de interface gráfica desenvolvido em Python para facilitar a execução de
 várias tarefas relacionadas ao Protheus.
@@ -32,7 +33,7 @@ Ele permite a execução de comandos, abertura de navegadores e configuração d
 ### 1. Clonar o Repositório
 
 ```sh
-git clone https://github.com/yousername/repositoryname.git
+git clone https://github.com/yourusername/repositoryname.git
 cd repositoryname
 ```
 
