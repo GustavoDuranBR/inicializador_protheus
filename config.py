@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox, ttk
 import shutil
 import json
 from tooltip import ToolTip
@@ -14,7 +14,7 @@ else:
         "Dbaccess": "",
         "Appserver": "",
         "Smartclient": "",
-        "Baixar_RPO": ""
+        "Versao_RPO": ""  # Adiciona o campo "Versao_RPO" inicialmente
     }
 
 def remove_quotes(path):
@@ -63,25 +63,49 @@ def open_settings(parent):
             save_paths()
             path_vars[path_key].set(paths[path_key])
 
+    def update_version(event):
+        """Atualiza a versão RPO no dicionário paths quando o Combobox é alterado."""
+        selected_version = version_selector.get()
+        paths["Versao_RPO"] = selected_version
+        save_paths()
+
     # Inicializa path_vars com valores do dicionário paths
-    path_vars = {key: tk.StringVar(value=paths.get(key, "")) for key in paths}
+    path_vars = {}
+    for key in paths:
+        path_vars[key] = tk.StringVar(value=paths.get(key, ""))
 
-    for i, (label_text, path_key) in enumerate(paths.items()):
-        # Label com texto e fundo da janela
-        label = tk.Label(settings_window, text=label_text, bg='#333333', fg='#8bb7f7')
-        label.grid(row=i+1, column=0, padx=5, pady=5, sticky="e")
+    # Remove o código relacionado às entradas ("Entry") para "Versao_RPO"
+    row_count = 1
+    for label_text, path_key in paths.items():
+        if label_text != "Versao_RPO":  # Não cria label e entry para Versao_RPO
+            # Label com texto e fundo da janela
+            label = tk.Label(settings_window, text=label_text, bg='#333333', fg='#8bb7f7')
+            label.grid(row=row_count, column=0, padx=5, pady=5, sticky="e")
 
-        # Entry para exibir o caminho, com fundo branco e texto preto
-        entry = tk.Entry(settings_window, textvariable=path_vars[label_text], width=50, 
-                         state='readonly', bg='white', fg='black')
-        entry.grid(row=i+1, column=1, padx=5, pady=5)
-        ToolTip(entry, f"Defina o caminho para {label_text.lower()}")
+            # Entry para exibir o caminho, com fundo branco e texto preto
+            entry = tk.Entry(settings_window, textvariable=path_vars[label_text], width=50, 
+                             state='readonly', bg='white', fg='black')
+            entry.grid(row=row_count, column=1, padx=5, pady=5)
+            ToolTip(entry, f"Defina o caminho para {label_text.lower()}")
 
-        # Botão para procurar o caminho, com fundo cinza escuro e texto branco
-        browse_button = tk.Button(settings_window, text="Procurar", 
-                                  command=lambda key=label_text: save_path(key),
-                                  bg='#444444', fg='#8bb7f7', relief='flat', width=15)
-        browse_button.grid(row=i+1, column=2, padx=5, pady=5)
+            # Botão para procurar o caminho, com fundo cinza escuro e texto branco
+            browse_button = tk.Button(settings_window, text="Procurar", 
+                                      command=lambda key=label_text: save_path(key),
+                                      bg='#444444', fg='#8bb7f7', relief='flat', width=15)
+            browse_button.grid(row=row_count, column=2, padx=5, pady=5)
+
+            row_count += 1
+
+    # Adicionar o combobox para seleção da versão RPO
+    version_options = ["12.1.2210", "12.1.2310"]  # Lista de versões disponíveis
+    version_label = tk.Label(settings_window, text="Versão RPO", bg='#333333', fg='#8bb7f7')
+    version_label.grid(row=row_count, column=0, padx=5, pady=5, sticky="e")
+
+    # Utiliza o ttk para um combobox com aparência moderna
+    version_selector = ttk.Combobox(settings_window, textvariable=path_vars.get("Versao_RPO", tk.StringVar(value="")), 
+                                   values=version_options, state="readonly")
+    version_selector.grid(row=row_count, column=1, padx=5, pady=5, sticky="ew")
+    version_selector.bind("<<ComboboxSelected>>", update_version)  # Atualiza versão quando a seleção mudar
 
     def copy_file():
         src = filedialog.askopenfilename(title="Selecione o arquivo appserver.ini", 
@@ -90,24 +114,20 @@ def open_settings(parent):
             dst = filedialog.askdirectory(title="Selecione o diretório de destino")
             if dst:
                 shutil.copy(src, dst)
-                tk.messagebox.showinfo("Sucesso", f"Arquivo copiado para {dst}")
-
-    def save_and_close():
-        save_paths()
-        settings_window.destroy()
+                messagebox.showinfo("Sucesso", f"Arquivo copiado para {dst}")
 
     def close_without_saving():
         settings_window.destroy()
 
     # Adicionando os botões "Copiar", "Salvar" e "Sair" na mesma linha
     button_frame = tk.Frame(settings_window, bg='#333333')
-    button_frame.grid(row=len(paths)+2, column=0, columnspan=3, pady=10)
+    button_frame.grid(row=row_count+1, column=0, columnspan=3, pady=10)
 
     copy_button = tk.Button(button_frame, text="Copiar appserver.ini", command=copy_file, 
                             bg='#444444', fg='#8bb7f7', relief='flat', width=15)
     copy_button.pack(side="left", padx=5)
 
-    save_button = tk.Button(button_frame, text="Salvar", command=save_and_close, 
+    save_button = tk.Button(button_frame, text="Salvar", command=close_without_saving, 
                             bg='#444444', fg='#8bb7f7', relief='flat', width=15)
     save_button.pack(side="left", padx=5)
 

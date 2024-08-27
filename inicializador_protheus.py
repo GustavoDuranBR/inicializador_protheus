@@ -4,34 +4,70 @@ import subprocess
 import threading
 import webbrowser
 from config import open_settings, paths
+from atualizar_rpo import update_rpo
 
 processes = []
 
-def run_command(command, log_widget):
+def run_command(command, log_box, start_message):
+    log_box.insert(tk.END, f"Executando: {start_message}\n")
+    log_box.yview(tk.END)
+    
     try:
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        processes.append(process)
-        log_widget.insert(tk.END, f"Executando: {command}\n")
-        while process.poll() is None:
-            root.update_idletasks()
-        log_widget.insert(tk.END, f"Tarefa concluída: {command}\n")
-    except Exception as e:
-        log_widget.insert(tk.END, f"Erro: {str(e)}\n")
-        messagebox.showerror("Erro", f"Ocorreu um erro: {str(e)}")
-    finally:
-        for button in buttons:
-            button.config(state=tk.NORMAL)
+        process = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    except subprocess.CalledProcessError as e:
+        log_box.insert(tk.END, f"Erro ao executar: {command}\n{e.stderr}\n")
+        log_box.yview(tk.END)
 
 def start_task(path_key):
     command = f'start "" "{paths[path_key]}"'
-    for button in buttons:
-        button.config(state=tk.DISABLED)
     log_box.insert(tk.END, f"Iniciando tarefa: {path_key}\n")
-    threading.Thread(target=run_command, args=(command, log_box)).start()
+    threading.Thread(target=run_command, args=(command, log_box, path_key)).start()
+
+def start_update_rpo():
+    version = paths.get("Versao_RPO", "")
+    if not version:
+        messagebox.showerror("Erro", "A versão RPO não está definida. Por favor, configure nas Configurações.")
+        return
+    
+    log_box.insert(tk.END, "Atualizando RPO...\n")
+    threading.Thread(target=update_rpo, args=(version, log_box, root)).start()
+
+def start_dbaccess_and_appserver():
+    log_box.insert(tk.END, "Iniciando DbAccess e AppServer...\n")
+    
+    # Iniciar DbAccess
+    dbaccess_command = f'start "" "{paths["Dbaccess"]}"'
+    threading.Thread(target=run_command, args=(dbaccess_command, log_box, "DbAccess")).start()
+
+    # Iniciar Appserver
+    appserver_command = f'start "" "{paths["Appserver"]}"'
+    threading.Thread(target=run_command, args=(appserver_command, log_box, "AppServer")).start()
+
+def restart_dbaccess_and_appserver(log_box):
+    log_box.insert(tk.END, "Iniciando DbAccess e AppServer...\n")
+    
+    # Fechar DbAccess e AppServer
+    dbaccess_close_command = "taskkill /F /IM dbaccess64.exe"
+    appserver_close_command = "taskkill /F /IM appserver.exe"
+    threading.Thread(target=run_command, args=(dbaccess_close_command, log_box, "DbAccess")).start()
+    threading.Thread(target=run_command, args=(appserver_close_command, log_box, "AppServer")).start()
+    
+    # Reiniciar DbAccess
+    dbaccess_command = f'start "" "{paths["Dbaccess"]}"'
+    threading.Thread(target=run_command, args=(dbaccess_command, log_box, "Reiniciando DbAccess")).start()
+
+    # Reiniciar Appserver
+    appserver_command = f'start "" "{paths["Appserver"]}"'
+    threading.Thread(target=run_command, args=(appserver_command, log_box, "Reiniciando AppServer")).start()
+
+def close_all_processes():
+    try:
+        subprocess.run("taskkill /F /IM dbaccess64.exe", shell=True, check=True)
+        subprocess.run("taskkill /F /IM appserver.exe", shell=True, check=True)
+    except subprocess.CalledProcessError:
+        pass  # Ignorar erros se os processos já estiverem fechados
 
 def open_browser():
-    for button in buttons:
-        button.config(state=tk.DISABLED)
     log_box.insert(tk.END, "Abrindo navegador...\n")
 
     try:
@@ -40,17 +76,10 @@ def open_browser():
     except Exception as e:
         log_box.insert(tk.END, f"Erro ao abrir o navegador: {str(e)}\n")
         messagebox.showerror("Erro", f"Ocorreu um erro ao abrir o navegador: {str(e)}")
-    finally:
-        for button in buttons:
-            button.config(state=tk.NORMAL)
-
-def terminate_processes():
-    for process in processes:
-        if process.poll() is None:
-            process.terminate()
 
 def quit_app():
     if messagebox.askokcancel("Sair", "Você tem certeza que deseja sair?"):
+        close_all_processes()  # Fechar processos antes de sair
         root.quit()
         root.destroy()
 
@@ -80,38 +109,45 @@ log_box.pack(side=tk.RIGHT, fill=tk.BOTH, padx=10, pady=10, expand=True)
 
 buttons = []
 
-tasks = [
-    ("Iniciar Dbaccess", "Dbaccess"),
-    ("Iniciar Appserver", "Appserver"),
-]
+# Criando o botão para iniciar DbAccess e AppServer juntos
+start_button = tk.Button(frame_buttons, text="Iniciar DbAccess e AppServer", 
+                         command=start_dbaccess_and_appserver, 
+                         width=25, bg='#444444', fg='#8bb7f7', relief='flat')
+start_button.pack(pady=5, anchor=tk.W)
+buttons.append(start_button)
 
-for text, path_key in tasks:
-    button = tk.Button(frame_buttons, text=text, command=lambda key=path_key: start_task(key), 
-                       width=25, bg='#444444', fg='#8bb7f7', relief='flat')
-    button.pack(pady=5, anchor=tk.W)
-    buttons.append(button)
+# Botão para reiniciar DbAccess e AppServer
+restart_button = tk.Button(frame_buttons, text="Reiniciar DbAccess e AppServer", 
+                         command=lambda: restart_dbaccess_and_appserver(log_box), 
+                         width=25, bg='#444444', fg='#8bb7f7', relief='flat')
+restart_button.pack(pady=5, anchor=tk.W)
+buttons.append(restart_button)
 
+# Botão para iniciar Protheus Web
 browser_button = tk.Button(frame_buttons, text="Iniciar Protheus WEB", command=open_browser, 
                            width=25, bg='#444444', fg='#8bb7f7', relief='flat')
 browser_button.pack(pady=5, anchor=tk.W)
 buttons.append(browser_button)
 
+# Botão para iniciar SmartClient e atualizar RPO
 tasks_rest = [
     ("Iniciar Smartclient", "Smartclient"),
-    ("Atualizar RPO", "Baixar_RPO"),
+    ("Atualizar RPO", start_update_rpo),  
 ]
 
-for text, path_key in tasks_rest:
-    button = tk.Button(frame_buttons, text=text, command=lambda key=path_key: start_task(key), 
+for text, action in tasks_rest:
+    button = tk.Button(frame_buttons, text=text, command=action if callable(action) else lambda key=action: start_task(key), 
                        width=25, bg='#444444', fg='#8bb7f7', relief='flat')
     button.pack(pady=5, anchor=tk.W)
     buttons.append(button)
 
+# Botão para abrir configurações
 settings_button = tk.Button(frame_buttons, text="Configurações", command=lambda: open_settings(root), 
                             width=25, bg='#444444', fg='#8bb7f7', relief='flat')
 settings_button.pack(pady=5, anchor=tk.W)
 buttons.append(settings_button)
 
+# Botão para sair do aplicativo
 exit_button = tk.Button(frame_buttons, text="Sair", command=quit_app, 
                         width=25, bg='#444444', fg='#8bb7f7', relief='flat')
 exit_button.pack(pady=5, anchor=tk.W)
