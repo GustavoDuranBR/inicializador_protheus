@@ -4,6 +4,9 @@
 Este projeto é um aplicativo de interface gráfica desenvolvido em Python para facilitar a execução de
 várias tarefas relacionadas ao Protheus.
 Ele permite a execução de comandos, abertura de navegadores e configuração de caminhos de arquivos.
+Este projeto é um aplicativo de interface gráfica desenvolvido em Python para facilitar a execução de
+várias tarefas relacionadas ao Protheus.
+Ele permite a execução de comandos, abertura de navegadores e configuração de caminhos de arquivos.
 
 ## Funcionalidades
 
@@ -11,6 +14,7 @@ Ele permite a execução de comandos, abertura de navegadores e configuração d
 - Iniciar Appserver
 - Iniciar Protheus WEB
 - Iniciar Smartclient
+- Atualização do RPO
 - Atualização do RPO
 - Configurar caminhos para cada tarefa
 - Copiar arquivo `appserver.ini` para um diretório específico
@@ -53,6 +57,7 @@ pip install tk
 
 ```sh
 python inicializador_protheus.py
+python inicializador_protheus.py
 ```
 
 ### Configuração
@@ -71,12 +76,22 @@ Na aba de configurações, você pode selecionar o arquivo `appserver.ini` e o d
 2. Selecione o `appserver.ini` que deseja utilizar
 3. Selecione o diretório padrão para executar o appserver
 4. O programa copiar o `appserver.ini` devidamente
+1. Clique no botão Copiar appserver.ini
+2. Selecione o `appserver.ini` que deseja utilizar
+3. Selecione o diretório padrão para executar o appserver
+4. O programa copiar o `appserver.ini` devidamente
 
 ## Estrutura do Projeto
 
 ```plaintext
 project/
 │
+├── venv/                      # Diretório da virtual environment
+├── inicializador_protheus.py  # Lógica principal da aplicação
+├── config.py                  # Lógica da janela de configurações
+├── tooltip.py                 # Classe para dicas de ferramentas
+├── requirements.txt           # Arquivo de dependências
+└── .gitignore                 # Arquivo para ignorar arquivos/diretórios específicos no Git
 ├── venv/                      # Diretório da virtual environment
 ├── inicializador_protheus.py  # Lógica principal da aplicação
 ├── config.py                  # Lógica da janela de configurações
