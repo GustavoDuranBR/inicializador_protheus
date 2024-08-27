@@ -52,7 +52,8 @@ source venv/bin/activate
 ### 3. Instalar Dependências
 
 ```sh
-pip install tk
+pip install -r requirements.txt
+
 ```
 
 ## Uso
