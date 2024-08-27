@@ -9,7 +9,7 @@ from atualizar_rpo import update_rpo
 processes = []
 
 def run_command(command, log_box, start_message):
-    log_box.insert(tk.END, f"Executando: {start_message}\n")
+    log_box.insert(tk.END, f"{start_message}\n")
     log_box.yview(tk.END)
     
     try:
@@ -37,28 +37,29 @@ def start_dbaccess_and_appserver():
     
     # Iniciar DbAccess
     dbaccess_command = f'start "" "{paths["Dbaccess"]}"'
-    threading.Thread(target=run_command, args=(dbaccess_command, log_box, "DbAccess")).start()
+    threading.Thread(target=run_command, args=(dbaccess_command, log_box, "Executando: DbAccess")).start()
 
     # Iniciar Appserver
     appserver_command = f'start "" "{paths["Appserver"]}"'
-    threading.Thread(target=run_command, args=(appserver_command, log_box, "AppServer")).start()
+    threading.Thread(target=run_command, args=(appserver_command, log_box, "Executando: AppServer")).start()
 
 def restart_dbaccess_and_appserver(log_box):
-    log_box.insert(tk.END, "Iniciando DbAccess e AppServer...\n")
+    log_box.insert(tk.END, "Reiniciando DbAccess e AppServer...\n")
     
     # Fechar DbAccess e AppServer
     dbaccess_close_command = "taskkill /F /IM dbaccess64.exe"
     appserver_close_command = "taskkill /F /IM appserver.exe"
-    threading.Thread(target=run_command, args=(dbaccess_close_command, log_box, "DbAccess")).start()
-    threading.Thread(target=run_command, args=(appserver_close_command, log_box, "AppServer")).start()
+    threading.Thread(target=run_command, args=(dbaccess_close_command, log_box, "Fechando: DbAccess")).start()
+    threading.Thread(target=run_command, args=(appserver_close_command, log_box, "Fechando: AppServer")).start()
     
     # Reiniciar DbAccess
     dbaccess_command = f'start "" "{paths["Dbaccess"]}"'
-    threading.Thread(target=run_command, args=(dbaccess_command, log_box, "Reiniciando DbAccess")).start()
+    threading.Thread(target=run_command, args=(dbaccess_command, log_box, "Reiniciando: DbAccess")).start()
 
     # Reiniciar Appserver
     appserver_command = f'start "" "{paths["Appserver"]}"'
-    threading.Thread(target=run_command, args=(appserver_command, log_box, "Reiniciando AppServer")).start()
+    threading.Thread(target=run_command, args=(appserver_command, log_box, "Reiniciando: AppServer")).start()
+
 
 def close_all_processes():
     try:
