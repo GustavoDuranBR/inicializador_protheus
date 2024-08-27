@@ -1,3 +1,4 @@
+
 # Menu de Tarefas do Protheus
 
 Este projeto é um aplicativo de interface gráfica desenvolvido em Python para facilitar a execução de
@@ -6,13 +7,20 @@ Ele permite a execução de comandos, abertura de navegadores e configuração d
 
 ## Funcionalidades
 
-- Iniciar Dbaccess
-- Iniciar Appserver
+- Iniciar DbAccess e AppServer simultaneamente
+- Reiniciar DbAccess e AppServer
 - Iniciar Protheus WEB
 - Iniciar Smartclient
 - Atualização do RPO
 - Configurar caminhos para cada tarefa
 - Copiar arquivo `appserver.ini` para um diretório específico
+- Fechar automaticamente os serviços iniciados ao sair do programa
+
+## Melhorias Recentes
+
+- **Botão único para Iniciar DbAccess e AppServer:** Unificamos os botões para iniciar `DbAccess` e `AppServer`, facilitando o processo com um único clique.
+- **Reinício de Serviços:** Agora, ao clicar no botão de reiniciar `DbAccess` e `AppServer`, os serviços serão reiniciados com as mensagens apropriadas.
+- **Encerramento de Serviços ao Sair:** Ao fechar o programa principal ou clicar em "Sair", todos os serviços (`DbAccess` e `AppServer`) iniciados serão automaticamente encerrados.
 
 ## Requisitos
 
@@ -24,7 +32,7 @@ Ele permite a execução de comandos, abertura de navegadores e configuração d
 ### 1. Clonar o Repositório
 
 ```sh
-git clone https://github.com/yourusername/repositoryname.git
+git clone https://github.com/yousername/repositoryname.git
 cd repositoryname
 ```
 
@@ -66,10 +74,10 @@ Para configurar os caminhos dos executáveis e outras configurações:
 
 Na aba de configurações, você pode selecionar o arquivo `appserver.ini` e o diretório de destino para copiá-lo:
 
-1. Clique no botão Copiar appserver.ini
-2. Selecione o `appserver.ini` que deseja utilizar
-3. Selecione o diretório padrão para executar o appserver
-4. O programa copiar o `appserver.ini` devidamente
+1. Clique no botão Copiar appserver.ini.
+2. Selecione o `appserver.ini` que deseja utilizar.
+3. Selecione o diretório padrão para executar o appserver.
+4. O programa copiará o `appserver.ini` devidamente.
 
 ## Estrutura do Projeto
 
