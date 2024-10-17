@@ -158,7 +158,7 @@ buttons.append(exit_button)
 dev_label = tk.Label(frame_buttons, text="Dev: Gustavo Duran", bg='#333333', fg='#8bb7f7')
 dev_label.pack(pady=5, anchor=tk.W)
 
-version_label = tk.Label(frame_buttons, text="Versão: 2.1", bg='#333333', fg='#8bb7f7')
+version_label = tk.Label(frame_buttons, text="Versão: 2.2", bg='#333333', fg='#8bb7f7')
 version_label.pack(pady=5, anchor=tk.W)
 
 root.protocol("WM_DELETE_WINDOW", quit_app)
