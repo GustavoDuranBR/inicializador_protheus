@@ -5,12 +5,15 @@ import tkinter as tk
 def update_rpo(version, log_box, root):
     try:
         # Define a URL e o caminho de destino com base na versão
-        if version == "12.1.2310":
-            url = "https://arte.engpro.totvs.com.br/protheus/padrao/builds/12.1.2310/latest/repositorio/harpia/tttm120.rpo"
-            destino = "C:\\TOTVS\\12.1.2310\\Apo\\TTTM120.RPO"
-        elif version == "12.1.2210":
+        if version == "12.1.2210":
             url = "https://arte.engpro.totvs.com.br/protheus/padrao/builds/12.1.2210/latest/repositorio/harpia/tttm120.rpo"
             destino = "C:\\TOTVS\\12.1.2210\\Apo\\TTTM120.RPO"
+        elif version == "12.1.2310":
+            url = "https://arte.engpro.totvs.com.br/protheus/padrao/builds/12.1.2310/latest/repositorio/harpia/tttm120.rpo"
+            destino = "C:\\TOTVS\\12.1.2310\\Apo\\TTTM120.RPO"
+        elif version == "12.1.2410":
+            url = "https://arte.engpro.totvs.com.br/protheus/padrao/builds/12.1.2410/latest/repositorio/harpia/tttm120.rpo"
+            destino = "C:\\TOTVS\\12.1.2410\\Apo\\TTTM120.RPO"
         else:
             log_box.insert(tk.END, "Versão não reconhecida. Atualização do RPO cancelada.\n")
             log_box.yview(tk.END)

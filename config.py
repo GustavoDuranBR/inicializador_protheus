@@ -97,7 +97,7 @@ def open_settings(parent):
             row_count += 1
 
     # Adicionar o combobox para seleção da versão RPO
-    version_options = ["12.1.2210", "12.1.2310"]  # Lista de versões disponíveis
+    version_options = ["12.1.2210", "12.1.2310", "12.1.2410"]  # Lista de versões disponíveis
     version_label = tk.Label(settings_window, text="Versão RPO", bg='#333333', fg='#8bb7f7')
     version_label.grid(row=row_count, column=0, padx=5, pady=5, sticky="e")
 
