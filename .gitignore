@@ -13,3 +13,6 @@ inicializador_protheus.spec
 config_log.txt
 paths.json
 script_001.iss
+script_001_ORIGINAL.iss
+run_commands.bat
+requirements.txt
