@@ -116,6 +116,15 @@ def open_settings(parent):
                 shutil.copy(src, dst)
                 messagebox.showinfo("Sucesso", f"Arquivo copiado para {dst}")
 
+    def copy_rpo():
+        src = filedialog.askopenfilename(title="Selecione o arquivo tttm120.rpo", 
+                                         filetypes=(("INI files", "*.RPO"), ("All files", "*.*")))
+        if src:
+            dst = filedialog.askdirectory(title="Selecione o diretório de destino")
+            if dst:
+                shutil.copy(src, dst)
+                messagebox.showinfo("Sucesso", f"Arquivo copiado para {dst}")
+
     def close_without_saving():
         settings_window.destroy()
 
