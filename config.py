@@ -118,7 +118,7 @@ def open_settings(parent):
 
     def copy_rpo():
         src = filedialog.askopenfilename(title="Selecione o arquivo tttm120.rpo", 
-                                         filetypes=(("INI files", "*.ini"), ("All files", "*.*")))
+                                         filetypes=(("INI files", "*.RPO"), ("All files", "*.*")))
         if src:
             dst = filedialog.askdirectory(title="Selecione o diretório de destino")
             if dst:
