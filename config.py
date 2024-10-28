@@ -116,6 +116,15 @@ def open_settings(parent):
                 shutil.copy(src, dst)
                 messagebox.showinfo("Sucesso", f"Arquivo copiado para {dst}")
 
+    def copy_rpo():
+        src = filedialog.askopenfilename(title="Selecione o arquivo tttm120.rpo", 
+                                         filetypes=(("INI files", "*.ini"), ("All files", "*.*")))
+        if src:
+            dst = filedialog.askdirectory(title="Selecione o diretório de destino")
+            if dst:
+                shutil.copy(src, dst)
+                messagebox.showinfo("Sucesso", f"Arquivo copiado para {dst}")
+
     def close_without_saving():
         settings_window.destroy()
 
@@ -124,6 +133,10 @@ def open_settings(parent):
     button_frame.grid(row=row_count+1, column=0, columnspan=3, pady=10)
 
     copy_button = tk.Button(button_frame, text="Copiar appserver.ini", command=copy_file, 
+                            bg='#444444', fg='#8bb7f7', relief='flat', width=15)
+    copy_button.pack(side="left", padx=5)
+
+    copy_button = tk.Button(button_frame, text="Copiar RPO", command=copy_rpo, 
                             bg='#444444', fg='#8bb7f7', relief='flat', width=15)
     copy_button.pack(side="left", padx=5)
 

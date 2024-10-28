@@ -14,6 +14,7 @@ def run_command(command, log_box, start_message):
     
     try:
         process = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        log_box.insert(tk.END, f"Comando executado com sucesso: {command}\n")
     except subprocess.CalledProcessError as e:
         log_box.insert(tk.END, f"Erro ao executar: {command}\n{e.stderr}\n")
         log_box.yview(tk.END)
@@ -43,7 +44,7 @@ def start_dbaccess_and_appserver():
     appserver_command = f'start "" "{paths["Appserver"]}"'
     threading.Thread(target=run_command, args=(appserver_command, log_box, "Executando: AppServer")).start()
 
-def restart_dbaccess_and_appserver(log_box):
+def restart_dbaccess_and_appserver():
     log_box.insert(tk.END, "Reiniciando DbAccess e AppServer...\n")
     
     # Fechar DbAccess e AppServer
@@ -60,7 +61,6 @@ def restart_dbaccess_and_appserver(log_box):
     appserver_command = f'start "" "{paths["Appserver"]}"'
     threading.Thread(target=run_command, args=(appserver_command, log_box, "Reiniciando: AppServer")).start()
 
-
 def close_all_processes():
     try:
         subprocess.run("taskkill /F /IM dbaccess64.exe", shell=True, check=True)
@@ -70,7 +70,6 @@ def close_all_processes():
 
 def open_browser():
     log_box.insert(tk.END, "Abrindo navegador...\n")
-
     try:
         webbrowser.open("http://localhost:8089")
         log_box.insert(tk.END, "Navegador aberto com sucesso!\n")
@@ -84,9 +83,16 @@ def quit_app():
         root.quit()
         root.destroy()
 
+# Inicialização da janela principal
 root = tk.Tk()
 root.title("Inicializador Protheus")
-root.iconbitmap("icon.ico")
+
+# Verifique se o arquivo de ícone existe
+try:
+    root.iconbitmap("icon.ico")
+except Exception as e:
+    print(f"Erro ao definir ícone: {e}")
+
 root.geometry("700x500")
 root.configure(bg='#333333')
 
@@ -105,12 +111,13 @@ frame_buttons.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
 
 # Caixa de diálogo
 log_box = scrolledtext.ScrolledText(root, width=50, height=20, bg='#222222', 
-                                    fg='#8bb7f7', state='normal')
+                                     fg='#8bb7f7', state='normal')
 log_box.pack(side=tk.RIGHT, fill=tk.BOTH, padx=10, pady=10, expand=True)
 
+# Criando os botões
 buttons = []
 
-# Criando o botão para iniciar DbAccess e AppServer juntos
+# Botão para iniciar DbAccess e AppServer
 start_button = tk.Button(frame_buttons, text="Iniciar DbAccess e AppServer", 
                          command=start_dbaccess_and_appserver, 
                          width=25, bg='#444444', fg='#8bb7f7', relief='flat')
@@ -119,8 +126,8 @@ buttons.append(start_button)
 
 # Botão para reiniciar DbAccess e AppServer
 restart_button = tk.Button(frame_buttons, text="Reiniciar DbAccess e AppServer", 
-                         command=lambda: restart_dbaccess_and_appserver(log_box), 
-                         width=25, bg='#444444', fg='#8bb7f7', relief='flat')
+                           command=restart_dbaccess_and_appserver, 
+                           width=25, bg='#444444', fg='#8bb7f7', relief='flat')
 restart_button.pack(pady=5, anchor=tk.W)
 buttons.append(restart_button)
 
@@ -130,7 +137,7 @@ browser_button = tk.Button(frame_buttons, text="Iniciar Protheus WEB", command=o
 browser_button.pack(pady=5, anchor=tk.W)
 buttons.append(browser_button)
 
-# Botão para iniciar SmartClient e atualizar RPO
+# Botões para tarefas específicas
 tasks_rest = [
     ("Iniciar Smartclient", "Smartclient"),
     ("Atualizar RPO", start_update_rpo),  
@@ -158,8 +165,8 @@ buttons.append(exit_button)
 dev_label = tk.Label(frame_buttons, text="Dev: Gustavo Duran", bg='#333333', fg='#8bb7f7')
 dev_label.pack(pady=5, anchor=tk.W)
 
-version_label = tk.Label(frame_buttons, text="Versão: 2.2", bg='#333333', fg='#8bb7f7')
+version_label = tk.Label(frame_buttons, text="Versão: 2.3", bg='#333333', fg='#8bb7f7')
 version_label.pack(pady=5, anchor=tk.W)
 
-root.protocol("WM_DELETE_WINDOW", quit_app)
+# Iniciar o loop principal da aplicação
 root.mainloop()
