@@ -6,6 +6,13 @@ from config_web import paths, save_paths, load_paths
 # Carregar configurações iniciais
 paths = load_paths()
 
+# Definindo o ícone da aba
+st.set_page_config(
+    page_title="Inicializador Protheus",  # Título da aba
+    page_icon="TOTS3.SA_BIG.ico",  # Caminho para o ícone
+    layout="wide"
+)
+
 # Inicializando o log_content se não estiver definido
 if 'log_content' not in st.session_state:
     st.session_state.log_content = []
@@ -134,20 +141,39 @@ if st.sidebar.button("Salvar Configurações"):
     save_paths(paths)
     st.sidebar.success("Configurações salvas com sucesso!")
 
+# CSS customizado para padronizar o estilo dos botões
+st.markdown("""
+    <style>
+    .button-container button {
+        width: 100%;
+        height: 50px;
+        font-size: 16px;
+    }
+    .title-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Informações sobre versão e desenvolvedor
+st.sidebar.markdown(f"**Dev**: Gustavo Duran  \n**Versão**: 1.0")
+
 # Botões principais
 with button_display.container():
-    col1, col2 = st.columns([1, 7])
+    col1, col2 = st.columns([1, 8])
     with col1:
-        st.image("icon.ico", width=80)
+        st.image("TOTS3.SA.ico", width=70)
     with col2:
-        st.title("Inicializador Protheus")
+        st.markdown("<div class='title-container'><h1>Inicializador Protheus</h1></div>", unsafe_allow_html=True)
 
-    col3, col4, col5, col6 = st.columns(4)
+    col3, col4, col5, col6 = st.columns(4, gap="small")
     with col3:
-        if st.button("Iniciar DbAccess e AppServer"):
+        if st.button("DbAccess/AppServer", key="btn1", use_container_width=True):
             start_dbaccess_and_appserver()
     with col4:
-        if st.button("Iniciar Protheus WEB"):
+        if st.button("Protheus WEB", key="btn2", use_container_width=True):
             web_url = "http://localhost:8089"
             try:
                 subprocess.Popen(f'start {web_url}', shell=True)
@@ -155,10 +181,10 @@ with button_display.container():
             except Exception as e:
                 update_log(f"<span style='color:red;'>Erro ao abrir o navegador: {e}</span>")
     with col5:
-        if st.button("Atualizar RPO"):
+        if st.button("Atualizar RPO", key="btn3", use_container_width=True):
             start_update_rpo()
     with col6:
-        if st.button("Fechar Terminais"):
+        if st.button("Fechar Terminais", key="btn4", use_container_width=True):
             close_terminals()
 
 # Exibir o log abaixo dos botões
