@@ -9,7 +9,7 @@ paths = load_paths()
 # Definindo o ícone da aba
 st.set_page_config(
     page_title="Inicializador Protheus",  # Título da aba
-    page_icon="TOTS3.SA_BIG.ico",  # Caminho para o ícone
+    page_icon="TOTS3.SA.ico",  # Caminho para o ícone
     layout="wide"
 )
 
