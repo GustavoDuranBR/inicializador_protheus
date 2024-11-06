@@ -86,6 +86,14 @@ Para configurar os caminhos dos executáveis do `DbAccess`, `AppServer`, e `Smar
 
 Na aba de atualização, selecione a versão desejada do RPO e inicie o download. Acompanhe o progresso na área de logs.
 
+---
+
+### Documentação de Configurações
+
+Para mais informações sobre as configurações de diretórios e como configurar corretamente o sistema, consulte a [documentação de configurações](docs/CONFIGURACOES_DIRETORIOS.md).
+
+---
+
 ## Estrutura do Projeto
 
 ```plaintext
