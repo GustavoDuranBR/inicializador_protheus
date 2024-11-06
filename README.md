@@ -1,40 +1,47 @@
+# Inicializador Protheus
 
-# Menu de Tarefas do Protheus
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Python](https://img.shields.io/badge/Python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Requests](https://img.shields.io/badge/Requests-3776AB?style=for-the-badge&logo=requests&logoColor=white)
+![JSON](https://img.shields.io/badge/JSON-000000?style=for-the-badge&logo=json&logoColor=white)
+![Tkinter](https://img.shields.io/badge/Tkinter-3C7EBB?style=for-the-badge&logo=tkinter&logoColor=white)
 
-Este projeto é um aplicativo de interface gráfica desenvolvido em Python para facilitar a execução de
-várias tarefas relacionadas ao Protheus.
-Ele permite a execução de comandos, abertura de navegadores e configuração de caminhos de arquivos.
+Este projeto é uma aplicação web para facilitar a execução de tarefas relacionadas ao Protheus. Ele permite o gerenciamento de serviços, como `DbAccess` e `AppServer`, através de uma interface gráfica web e apresenta logs em tempo real, com visual customizável, para o acompanhamento das operações.
 
 ## Funcionalidades
 
-- Iniciar DbAccess e AppServer simultaneamente
-- Reiniciar DbAccess e AppServer
-- Iniciar Protheus WEB
-- Iniciar Smartclient
-- Atualização do RPO
-- Configurar caminhos para cada tarefa
-- Copiar arquivo `appserver.ini` para um diretório específico
-- Fechar automaticamente os serviços iniciados ao sair do programa
+- **Iniciar e Reiniciar Serviços:** Botão para iniciar ou reiniciar simultaneamente o `DbAccess` e o `AppServer`.
+- **Monitoramento em Tempo Real:** Logs atualizados em tempo real, exibindo o progresso de download e execução de tarefas.
+- **Configuração e Persistência de Caminhos:** Permite configurar e salvar os caminhos dos executáveis do Protheus, facilitando o acesso e a execução.
+- **Atualização do RPO:** Download e atualização da versão do RPO diretamente da interface, com acompanhamento do progresso.
+- **Exibição Personalizada de Logs:** Interface inspirada em PowerShell para logs, com visual de cores similar ao Git Bash.
+- **Encerramento Automático de Serviços:** Todos os serviços iniciados são encerrados ao sair do programa ou ao clicar em "Fechar Terminais".
 
-## Melhorias Recentes
+## Tecnologias Utilizadas
 
-- **Botão único para Iniciar DbAccess e AppServer:** Unificamos os botões para iniciar `DbAccess` e `AppServer`, facilitando o processo com um único clique.
-- **Reinício de Serviços:** Agora, ao clicar no botão de reiniciar `DbAccess` e `AppServer`, os serviços serão reiniciados com as mensagens apropriadas.
-- **Encerramento de Serviços ao Sair:** Ao fechar o programa principal ou clicar em "Sair", todos os serviços (`DbAccess` e `AppServer`) iniciados serão automaticamente encerrados.
+- **Python:** Lógica principal da aplicação.
+- **Flask:** Estrutura de back-end da aplicação web.
+- **Streamlit:** Interface gráfica para exibir a aplicação na web.
+- **Requests:** Manipulação e gerenciamento de requisições HTTP para download do RPO.
+- **JSON:** Armazenamento e carregamento de configurações persistentes.
+- **Tkinter:** Interface inicial, agora substituída por Streamlit para uma experiência web.
+- **PowerShell (visual):** Para simular a aparência de logs na interface Streamlit.
 
 ## Requisitos
 
 - Python 3.6 ou superior
-- tkinter (geralmente incluído na instalação padrão do Python)
+- Flask e Streamlit
+- Requests
+- (Opcional) Tkinter para testes locais
 
 ## Instalação
 
 ### 1. Clonar o Repositório
 
 ```sh
-git clone https://github.com/yourusername/repositoryname.git
-cd repositoryname
+git clone https://github.com/seuusuario/projeto_inicializador_protheus.git
+cd projeto_inicializador_protheus
 ```
 
 ### 2. Criar e Ativar um Ambiente Virtual
@@ -53,58 +60,56 @@ source venv/bin/activate
 
 ```sh
 pip install -r requirements.txt
-
 ```
 
 ## Uso
 
-### Executar o Programa
+### Executar a Aplicação Web
+
+Para iniciar o aplicativo de inicialização do Protheus, execute:
 
 ```sh
-python inicializador_protheus.py
+streamlit run inicializador_protheus.py
 ```
 
-### Configuração
+Isso abrirá uma interface web onde você poderá gerenciar serviços, monitorar logs e atualizar o RPO.
 
-Para configurar os caminhos dos executáveis e outras configurações:
+### Configuração dos Caminhos
 
-1. Clique no botão "Configurações".
-2. Na nova janela, defina os caminhos desejados.
-3. Salve as configurações.
+Para configurar os caminhos dos executáveis do `DbAccess`, `AppServer`, e `SmartClient`:
 
-### Copiar `appserver.ini`
+1. Acesse a interface web na aba de configurações.
+2. Selecione os arquivos e caminhos desejados.
+3. Salve as configurações para uso persistente.
 
-Na aba de configurações, você pode selecionar o arquivo `appserver.ini` e o diretório de destino para copiá-lo:
+### Atualização do RPO
 
-1. Clique no botão Copiar appserver.ini.
-2. Selecione o `appserver.ini` que deseja utilizar.
-3. Selecione o diretório padrão para executar o appserver.
-4. O programa copiará o `appserver.ini` devidamente.
+Na aba de atualização, selecione a versão desejada do RPO e inicie o download. Acompanhe o progresso na área de logs.
 
 ## Estrutura do Projeto
 
 ```plaintext
-project/
+projeto_inicializador_protheus/
 │
-├── venv/                      # Diretório da virtual environment
-├── inicializador_protheus.py  # Lógica principal da aplicação
-├── config.py                  # Lógica da janela de configurações
-├── tooltip.py                 # Classe para dicas de ferramentas
-├── requirements.txt           # Arquivo de dependências
-└── .gitignore                 # Arquivo para ignorar arquivos/diretórios específicos no Git
+├── venv/                         # Diretório do ambiente virtual
+├── inicializador_protheus.py     # Lógica principal da aplicação
+├── config.py                     # Gerenciamento de configurações
+├── paths.json                    # Armazena caminhos configurados
+├── requirements.txt              # Dependências do projeto
+└── .gitignore                    # Arquivos e diretórios ignorados pelo Git
 ```
 
 ## Contribuição
 
-Se você encontrar bugs ou tiver sugestões de melhorias, sinta-se à vontade para abrir uma issue ou enviar um pull request.
+Sinta-se à vontade para contribuir com o projeto. Você pode abrir uma *issue* ou enviar um *pull request*.
 
 ### Como Contribuir
 
-1. Faça um fork do projeto.
-2. Crie uma branch para sua feature ou correção de bug (`git checkout -b minha-feature`).
+1. Faça um *fork* do projeto.
+2. Crie uma *branch* para sua *feature* ou correção (`git checkout -b minha-feature`).
 3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`).
-4. Push para a branch (`git push origin minha-feature`).
-5. Abra um Pull Request.
+4. Push para a *branch* (`git push origin minha-feature`).
+5. Abra um *Pull Request*.
 
 ## Licença
 
@@ -112,4 +117,4 @@ Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICEN
 
 ## Contato
 
-Se tiver dúvidas ou precisar de ajuda, entre em contato através do email gustavoduran22@gmail.com
+Para dúvidas ou suporte, entre em contato através do email gustavoduran22@gmail.com
